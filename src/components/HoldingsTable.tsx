@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tooltip, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
 import { TooltipContent } from "@radix-ui/react-tooltip"
 import { Holding } from "@/Types"
+import { useSelectedHoldings } from "@/Context/SelectedHoldingsContext"
 
 interface HoldingsTableProps {
   setHoldings : Dispatch<SetStateAction<Holding[]>>
@@ -22,7 +23,7 @@ type SortDirection = 'asc' | 'desc'
 export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCount = 5 }: HoldingsTableProps) {
   const [showAllHoldings, setShowAllHoldings] = useState(false)
   const [selectAll, setSelectAll] = useState(false)
-  const [selectedHoldings, setSelectedHoldings] = useState<string[]>([])
+  const { selectedHoldings, setSelectedHoldings } = useSelectedHoldings()
   const [sortField, setSortField] = useState<SortField>(null)
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
 
@@ -75,7 +76,6 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
       setSelectedHoldings(allCoinIds)
       console.log("Selected all coins:", allCoinIds.join(", "))
     }
-  
     setSelectAll(!selectAll)
   }
   
@@ -99,16 +99,10 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
       setSelectedHoldings(selectedHoldings.filter((name) => name !== coinName))
     } else {
       setSelectedHoldings([...selectedHoldings, coinName])
-      console.log("Selected coin:", coinName)
     }
   }
   
 
-  const checkToggled = (coinName:string) =>{
-    if(selectedHoldings.includes(coinName)){
-      return true
-    } else false
-  }
 
   const displayedHoldings = showAllHoldings ? sortedHoldings : sortedHoldings.slice(0, initialVisibleCount)
 
@@ -121,16 +115,18 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
       : <ChevronDown className="inline-block ml-1 h-4 w-4" />
   }
 
+  console.log(selectedHoldings);
+
   return (
-    <div className="bg-white rounded-lg shadow mb-6">
-      <div className="p-4 border-b">
+    <div className="bg-[##FFFFFF] dark:bg-[#171A26] rounded-lg shadow mb-6">
+      <div className="p-4 ">
         <h2 className="text-lg font-semibold">Holdings</h2>
       </div>
       <div className="overflow-x-auto">
-        <Table>
-          <TableHeader>
+        <Table className="">
+          <TableHeader className="bg-[#F1F5F9] dark:bg-[#0A0A12] border-0 ">
             <TableRow className="">
-              <TableHead className="w-12 flex items-center">
+              <TableHead className="w-12 flex items-center px-4">
                 <Checkbox 
                   checked={selectAll} 
                   onCheckedChange={toggleSelectAll} 
@@ -180,8 +176,8 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
           </TableHeader>
           <TableBody>
             {displayedHoldings.map((holding) => (
-              <TableRow key={holding.coinName} className={cn(selectedHoldings.includes(holding.coinName) && "bg-blue-50")}>
-                <TableCell>
+              <TableRow key={holding.coinName} className={cn(selectedHoldings.includes(holding.coinName) && "bg-[#EAF2FF] dark:bg-[#3A3F54]")}>
+                <TableCell className="px-4">
                   <Checkbox
                     checked={selectedHoldings.includes(holding.coinName)}
                     onCheckedChange={() => toggleHolding(holding.coin, holding.coinName)}
@@ -270,16 +266,14 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
         </Table>
       </div>
       <div className="p-4">
-        <Button variant="link" onClick={() => setShowAllHoldings(!showAllHoldings)} className="text-blue-600">
+        <Button variant="link" onClick={() => setShowAllHoldings(!showAllHoldings)} className="text-blue-600 underline hover:cursor-pointer">
           {showAllHoldings ? (
             <>
               <span>View less</span>
-              <ChevronUp className="ml-1 h-4 w-4" />
             </>
           ) : (
             <>
               <span>View all</span>
-              <ChevronDown className="ml-1 h-4 w-4" />
             </>
           )}
         </Button>

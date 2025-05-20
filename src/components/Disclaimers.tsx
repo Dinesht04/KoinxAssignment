@@ -19,7 +19,7 @@ const Disclaimer: React.FC = () => {
     >
       <AccordionItem
         value="item-1"
-        className="border rounded-lg overflow-hidden bg-[#EAF2FF]"
+        className="border dark:border-[#4A78FF] border-[#0052FE] rounded-lg overflow-hidden dark:text-[#FFFFFF] dark:bg-[#121D3A] bg-[#EAF2FF]"
       >
         <AccordionTrigger className="px-4 py-3 hover:no-underline">
           <div className="flex items-center">
@@ -28,7 +28,7 @@ const Disclaimer: React.FC = () => {
           </div>
         </AccordionTrigger>
         <AccordionContent className="px-4 pb-4">
-          <ul className="space-y-2 list-disc pl-5 text-sm text-slate-700">
+          <ul className="space-y-2 list-disc pl-5 text-sm">
             <li>
               Tax-loss harvesting is currently not allowed under Indian tax
               regulations. Please consult your tax advisor before making any

@@ -27,8 +27,8 @@ const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
       <h2 className="text-lg font-semibold mb-4">After Harvesting</h2>
       <div className="grid grid-cols-3 gap-4">
         <div></div>
-        <div className="text-sm font-medium text-center">Short-term</div>
-        <div className="text-sm font-medium text-center">Long-term</div>
+        <div className="text-sm font-medium text-right">Short-term</div>
+        <div className="text-sm font-medium text-right">Long-term</div>
 
         <div className="text-sm">Profits</div>
         <div className="text-right">${gain?.stcg?.profits}</div>
@@ -43,18 +43,15 @@ const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
         <div className="text-right">${gain?.ltcg?.profits - gain?.ltcg?.losses}</div>
       </div>
 
-      <div className="mt-6 pt-4 border-t border-blue-400">
-        <div className="flex justify-between items-center">
+      <div className="mt-6 pt-4 border-blue-400">
+        <div className="flex space-x-4 items-center">
           <div className="text-sm font-medium">Effective Capital Gains:</div>
           <div className="text-xl font-bold">{}</div>
         </div>
       </div>
 
       <div className="mt-4 bg-blue-500 p-3 rounded-lg flex items-center">
-        <div className="bg-orange-400 rounded-full p-1 mr-2">
-          <Check className="w-4 h-4" />
-        </div>
-        <span className="text-sm">You are going to save upto {}</span> 
+        <span className="text-sm">🎉 You are going to save upto {}</span> 
       </div>
     </div>
   );
