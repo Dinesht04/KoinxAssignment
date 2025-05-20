@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { Dispatch, useState,SetStateAction } from "react"
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,7 @@ import { TooltipContent } from "@radix-ui/react-tooltip"
 import { Holding } from "@/Types"
 
 interface HoldingsTableProps {
+  setHoldings : Dispatch<SetStateAction<Holding[]>>
   holdings: Holding[]
   initialVisibleCount?: number
 }
@@ -18,7 +19,7 @@ interface HoldingsTableProps {
 type SortField = 'totalHolding' | 'currentPrice' | 'stcg.gain' | 'ltcg.gain' | null
 type SortDirection = 'asc' | 'desc'
 
-export default function HoldingsTable({ holdings,initialVisibleCount = 5 }: HoldingsTableProps) {
+export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCount = 5 }: HoldingsTableProps) {
   const [showAllHoldings, setShowAllHoldings] = useState(false)
   const [selectAll, setSelectAll] = useState(false)
   const [selectedHoldings, setSelectedHoldings] = useState<string[]>([])
@@ -59,25 +60,54 @@ export default function HoldingsTable({ holdings,initialVisibleCount = 5 }: Hold
   })
 
   const toggleSelectAll = () => {
+    const allCoinIds = sortedHoldings.map((h) => h.coinName)
+  
+    const updatedHoldings = holdings.map((h) => ({
+      ...h,
+      amountToSell: selectAll ? "-" : h.totalHolding.toString(),
+    }))
+  
+    setHoldings(updatedHoldings)
+  
     if (selectAll) {
       setSelectedHoldings([])
     } else {
-      const allCoinIds = sortedHoldings.map((holding) => holding.coin)
       setSelectedHoldings(allCoinIds)
-      // Log all coin names when selecting all
       console.log("Selected all coins:", allCoinIds.join(", "))
     }
+  
     setSelectAll(!selectAll)
   }
+  
 
   const toggleHolding = (coin: string, coinName: string) => {
-    if (selectedHoldings.includes(coin)) {
-      setSelectedHoldings(selectedHoldings.filter((holdingId) => holdingId !== coin))
+    const isSelected = selectedHoldings.includes(coinName)
+  
+    const updatedHoldings = holdings.map((h) => {
+      if (h.coinName === coinName) {
+        return {
+          ...h,
+          amountToSell: isSelected ? "-" : h.totalHolding.toString(), // update amountToSell
+        }
+      }
+      return h
+    })
+  
+    setHoldings(updatedHoldings)
+  
+    if (isSelected) {
+      setSelectedHoldings(selectedHoldings.filter((name) => name !== coinName))
     } else {
-      setSelectedHoldings([...selectedHoldings, coin])
-      // Log the coin name when selected
+      setSelectedHoldings([...selectedHoldings, coinName])
       console.log("Selected coin:", coinName)
     }
+  }
+  
+
+  const checkToggled = (coinName:string) =>{
+    if(selectedHoldings.includes(coinName)){
+      return true
+    } else false
   }
 
   const displayedHoldings = showAllHoldings ? sortedHoldings : sortedHoldings.slice(0, initialVisibleCount)
@@ -150,10 +180,10 @@ export default function HoldingsTable({ holdings,initialVisibleCount = 5 }: Hold
           </TableHeader>
           <TableBody>
             {displayedHoldings.map((holding) => (
-              <TableRow key={holding.coinName} className={cn(selectedHoldings.includes(holding.coin) && "bg-blue-50")}>
+              <TableRow key={holding.coinName} className={cn(selectedHoldings.includes(holding.coinName) && "bg-blue-50")}>
                 <TableCell>
                   <Checkbox
-                    checked={selectedHoldings.includes(holding.coin)}
+                    checked={selectedHoldings.includes(holding.coinName)}
                     onCheckedChange={() => toggleHolding(holding.coin, holding.coinName)}
                     aria-label={`Select ${holding.coinName}`}
                   />
@@ -181,7 +211,7 @@ export default function HoldingsTable({ holdings,initialVisibleCount = 5 }: Hold
                       <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                      <span>{`< 0.000001`}</span>
+                      <span>{`< 0.000001 ${holding.coin}`}</span>
                       </TooltipTrigger>
                       <TooltipContent>
                         {holding.totalHolding}
@@ -189,7 +219,7 @@ export default function HoldingsTable({ holdings,initialVisibleCount = 5 }: Hold
                     </Tooltip>
                   </TooltipProvider>
                     )
-                    : holding.totalHolding.toLocaleString(undefined, { maximumFractionDigits: 8 })}
+                    : `${holding.totalHolding.toLocaleString(undefined, { maximumFractionDigits: 4 })} ${holding.coin}`}
                       
                   
                 </div>
@@ -229,7 +259,11 @@ export default function HoldingsTable({ holdings,initialVisibleCount = 5 }: Hold
                   </div>
                   <div className="text-xs text-gray-500">{holding.ltcg.balance.toLocaleString(undefined, { maximumFractionDigits: 8 })}</div>
                 </TableCell>
-                <TableCell>{holding.amountToSell || "-"}</TableCell>
+              
+                <TableCell><span>
+                        {holding.amountToSell !== "-" ? `${holding.totalHolding.toLocaleString(undefined, { maximumFractionDigits: 8 })} ${holding.coin}` : "-"}
+                      </span>
+              </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -27,5 +27,5 @@ export default function FullHoldingsTable() {
     return <div className="p-8 text-center text-red-500">{error}</div>
   }
 
-  return <HoldingsTable holdings={holdings} initialVisibleCount={5} />
+  return <HoldingsTable setHoldings={setHoldings} holdings={holdings} initialVisibleCount={5} />
 }
