@@ -54,21 +54,21 @@ const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
 
   return (
     <div className="rounded-lg shadow p-6 bg-gradient-to-r from-[#3C9AFF] to-[#0066FE] text-white">
-      <h2 className="text-lg font-semibold mb-4">After Harvesting</h2>
+      <h2 className="text-[20px] font-semibold mb-4">After Harvesting</h2>
       <div className="grid grid-cols-3 gap-4">
         <div></div>
-        <div className="text-sm font-medium text-right">Short-term</div>
-        <div className="text-sm font-medium text-right">Long-term</div>
+        <div className="text-[16px] font-medium text-right">Short-term</div>
+        <div className="text-[16px] font-medium text-right">Long-term</div>
 
-        <div className="text-sm">Profits</div>
-        <div className="text-right">
+        <div className="text-[16px]">Profits</div>
+        <div className="text-right text-[16px]">
           {gain?.stcg?.profits.toLocaleString(undefined, {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 2,
           })}
         </div>
-        <div className="text-right">
+        <div className="text-right text-[16px]">
           {gain?.ltcg?.profits.toLocaleString(undefined, {
             style: "currency",
             currency: "USD",
@@ -76,15 +76,15 @@ const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
           })}
         </div>
 
-        <div className="text-sm">Losses</div>
-        <div className="text-right">
+        <div className="text-[16px]">Losses</div>
+        <div className="text-right text-[16px]">
           {gain?.stcg?.losses.toLocaleString(undefined, {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 2,
           })}
         </div>
-        <div className="text-right">
+        <div className="text-right text-[16px]">
           {gain?.ltcg?.losses.toLocaleString(undefined, {
             style: "currency",
             currency: "USD",
@@ -92,15 +92,15 @@ const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
           })}
         </div>
 
-        <div className="text-sm">Net Capital Gains</div>
-        <div className="text-right">
+        <div className="text-[16px]">Net Capital Gains</div>
+        <div className="text-right text-[16px]">
           {(gain?.stcg?.profits - gain?.stcg?.losses).toLocaleString(undefined, {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 2,
           })}
         </div>
-        <div className="text-right">
+        <div className="text-right text-[16px]">
           {(gain?.ltcg?.profits - gain?.ltcg?.losses).toLocaleString(undefined, {
             style: "currency",
             currency: "USD",
@@ -111,8 +111,8 @@ const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
 
       <div className="mt-6 pt-4 border-blue-400">
         <div className="flex space-x-4 items-center">
-          <div className="text-sm font-medium">Effective Capital Gains:</div>
-          <div className="text-xl font-bold">
+          <div className="text-[20px] font-medium">Effective Capital Gains:</div>
+          <div className="text-[28px] font-bold">
             {effectiveCapitalGains.toLocaleString(undefined, {
               style: "currency",
               currency: "USD",
@@ -123,8 +123,8 @@ const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
       </div>
 
       {initialGain > effectiveCapitalGains && (
-        <div className="mt-4 bg-blue-500 p-3 rounded-lg flex items-center">
-          <span className="text-sm">
+        <div className="mt-4 px-2 rounded-lg flex items-center">
+          <span className="text-[16px]">
             🎉 You are going to save upto{" "}
             {(initialGain - effectiveCapitalGains).toLocaleString(undefined, {
               style: "currency",

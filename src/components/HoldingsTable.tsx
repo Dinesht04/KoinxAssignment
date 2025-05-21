@@ -114,9 +114,9 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
   }
 
   return (
-    <div className="bg-[##FFFFFF] dark:bg-[#171A26] rounded-lg shadow mb-6">
+    <div className="bg-[#FFFFFF] dark:bg-[#171A26] rounded-lg shadow mb-6">
       <div className="p-4 ">
-        <h2 className="text-lg font-semibold">Holdings</h2>
+        <h2 className="text-[20px] font-semibold">Holdings</h2>
       </div>
       <div className="overflow-x-auto">
         <Table className="">
@@ -130,23 +130,23 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                   className="hover:bg-[#F1F5F9] hover:dark:bg-[#0A0A12] hover:cursor-pointer" 
                 />
               </TableHead>
-              <TableHead>Asset</TableHead>
+              <TableHead className="text-[16px]">Asset</TableHead>
               <TableHead 
                 onClick={() => handleSort('totalHolding')}
                 className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1F1F2A]"
               >
                 <div className="flex items-center">
-                  <span>Holdings</span>
+                  <span className="text-[16px]">Holdings</span>
                   {renderSortIndicator('totalHolding')}
                 </div>
-                <div className="text-xs text-gray-500">Current Market Rate</div>
+                <div className="text-[12px] text-[#A9AFC5]">Current Market Rate</div>
               </TableHead>
               <TableHead 
                 onClick={() => handleSort('currentPrice')}
                 className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1F1F2A]"
               >
                 <div className="flex items-center">
-                  <span>Total Current Value</span>
+                  <span className="text-[16px]">Total Current Value</span>
                   {renderSortIndicator('currentPrice')}
                 </div>
               </TableHead>
@@ -155,7 +155,7 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                 className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1F1F2A]"
               >
                 <div className="flex items-center">
-                  <span>Short-term</span>
+                  <span className="text-[16px]">Short-term</span>
                   {renderSortIndicator('stcg.gain')}
                 </div>
               </TableHead>
@@ -164,16 +164,16 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                 className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1F1F2A]"
               >
                 <div className="flex items-center">
-                  <span>Long-Term</span>
+                  <span className="text-[16px]">Long-Term</span>
                   {renderSortIndicator('ltcg.gain')}
                 </div>
               </TableHead>
-              <TableHead>Amount to Sell</TableHead>
+              <TableHead className="text-[16px]">Amount to Sell</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {displayedHoldings.map((holding) => (
-              <TableRow key={holding.coinName} className={cn(selectedHoldings.includes(holding.coinName) && "bg-[#EAF2FF] dark:bg-[#3A3F54]") || "bg-[#FFFFFF] dark:bg-[#171A26]"}>
+              <TableRow key={holding.coinName} className={cn(selectedHoldings.includes(holding.coinName) && "bg-[#EAF2FF] dark:bg-[#3A3F54]") || "bg-[#FFFFFF] dark:bg-[#171A26] border-b"}>
                 <TableCell className="px-4">
                   <Checkbox
                     checked={selectedHoldings.includes(holding.coinName)}
@@ -192,13 +192,13 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                       )}
                     </div>
                     <div>
-                      <div className="font-medium">{holding.coinName}</div>
-                      <div className="text-xs text-gray-500">{holding.coin}</div>
+                      <div className="font-medium text-[16px]">{holding.coinName}</div>
+                      <div className="text-[14px] text-gray-500">{holding.coin}</div>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                <div>
+                <div className="text-[16px]">
                   
                       {holding.totalHolding < 1e-8
                     ? (
@@ -217,7 +217,7 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                       
                   
                 </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-[12px] text-gray-500">
                     {holding.averageBuyPrice.toLocaleString(undefined, { 
                       style: 'currency', 
                       currency: 'USD',
@@ -226,7 +226,7 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                     })}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-[16px]">
                   {(holding.currentPrice).toLocaleString(undefined, { 
                     style: 'currency', 
                     currency: 'USD',
@@ -234,27 +234,27 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                   })}
                 </TableCell>
                 <TableCell>
-                  <div className={cn(holding.stcg.gain < 0 ? "text-red-500" : "text-green-500")}>
+                  <div className={cn(holding.stcg.gain < 0 ? "text-[#FF5A6E]" : "text-[#3FF1B8]")+"text-[16px]"}>
                     {holding.stcg.gain.toLocaleString(undefined, { 
                       style: 'currency', 
                       currency: 'USD',
                       maximumFractionDigits: 2
                     })}
                   </div>
-                  <div className="text-xs text-gray-500">{holding.stcg.balance.toLocaleString(undefined, { maximumFractionDigits: 8 })}</div>
+                  <div className="text-[12px] text-[#A9AFC5]">{holding.stcg.balance.toLocaleString(undefined, { maximumFractionDigits: 8 })}</div>
                 </TableCell>
                 <TableCell>
-                  <div className={cn(holding.ltcg.gain < 0 ? "text-red-500" : "text-green-500")}>
+                  <div className={cn(holding.ltcg.gain < 0 ? "text-[#FF5A6E]" : "text-[#3FF1B8]")+"text-[16px]"}>
                     {holding.ltcg.gain.toLocaleString(undefined, { 
                       style: 'currency', 
                       currency: 'USD',
                       maximumFractionDigits: 2
                     })}
                   </div>
-                  <div className="text-xs text-gray-500">{holding.ltcg.balance.toLocaleString(undefined, { maximumFractionDigits: 8 })}</div>
+                  <div className="text-[12px] text-[#A9AFC5]">{holding.ltcg.balance.toLocaleString(undefined, { maximumFractionDigits: 8 })}</div>
                 </TableCell>
               
-                <TableCell><span>
+                <TableCell><span className="text-[16px]">
                         {holding.amountToSell !== "-" ? `${holding.totalHolding.toLocaleString(undefined, { maximumFractionDigits: 8 })} ${holding.coin}` : "-"}
                       </span>
               </TableCell>
@@ -264,7 +264,7 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
         </Table>
       </div>
       <div className="p-4">
-        <Button variant="link" onClick={() => setShowAllHoldings(!showAllHoldings)} className="text-blue-600 underline hover:cursor-pointer">
+        <Button variant="link" onClick={() => setShowAllHoldings(!showAllHoldings)} className="text-[#4A78FF] text-[16pxx] underline hover:cursor-pointer">
           {showAllHoldings ? (
             <>
               <span>View less</span>

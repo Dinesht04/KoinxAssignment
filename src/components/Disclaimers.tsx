@@ -24,11 +24,11 @@ const Disclaimer: React.FC = () => {
         <AccordionTrigger className="px-4 py-3 hover:no-underline">
           <div className="flex items-center">
             <Info className="w-5 h-5 mr-2 text-blue-600" />
-            <span className="font-medium">Important Notes & Disclaimers</span>
+            <span className="font-medium text-[16px ]">Important Notes & Disclaimers</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="px-4 pb-4">
-          <ul className="space-y-2 list-disc pl-5 text-sm">
+          <ul className="space-y-2 list-disc pl-5 text-[16px]">
             <li>
               Tax-loss harvesting is currently not allowed under Indian tax
               regulations. Please consult your tax advisor before making any
