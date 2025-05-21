@@ -4,10 +4,11 @@ import { useEffect, useState } from "react"
 import HoldingsTable from "@/components/HoldingsTable"
 import { UseHoldings } from "@/hooks/useHoldings"
 import { Holding } from "@/Types"
+import { useSelectedHoldings } from "@/Context/SelectedHoldingsContext"
 
 export default function FullHoldingsTable() {
   
-  const [holdings, setHoldings] = useState<Holding[]>([])
+  const {holdings,setHoldings} = useSelectedHoldings()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -27,5 +28,5 @@ export default function FullHoldingsTable() {
     return <div className="p-8 text-center text-red-500">{error}</div>
   }
 
-  return <HoldingsTable setHoldings={setHoldings} holdings={holdings} initialVisibleCount={5} />
+  return <HoldingsTable />
 }

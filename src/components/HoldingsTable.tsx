@@ -12,18 +12,16 @@ import { Holding } from "@/Types"
 import { useSelectedHoldings } from "@/Context/SelectedHoldingsContext"
 
 interface HoldingsTableProps {
-  setHoldings : Dispatch<SetStateAction<Holding[]>>
-  holdings: Holding[]
   initialVisibleCount?: number
 }
 
 type SortField = 'totalHolding' | 'currentPrice' | 'stcg.gain' | 'ltcg.gain' | null
 type SortDirection = 'asc' | 'desc'
 
-export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCount = 5 }: HoldingsTableProps) {
+export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTableProps) {
   const [showAllHoldings, setShowAllHoldings] = useState(false)
   const [selectAll, setSelectAll] = useState(false)
-  const { selectedHoldings, setSelectedHoldings } = useSelectedHoldings()
+  const { selectedHoldings, setSelectedHoldings,holdings,setHoldings } = useSelectedHoldings()
   const [sortField, setSortField] = useState<SortField>(null)
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
 
@@ -74,7 +72,7 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
       setSelectedHoldings([])
     } else {
       setSelectedHoldings(allCoinIds)
-      console.log("Selected all coins:", allCoinIds.join(", "))
+
     }
     setSelectAll(!selectAll)
   }
@@ -115,8 +113,6 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
       : <ChevronDown className="inline-block ml-1 h-4 w-4" />
   }
 
-  console.log(selectedHoldings);
-
   return (
     <div className="bg-[##FFFFFF] dark:bg-[#171A26] rounded-lg shadow mb-6">
       <div className="p-4 ">
@@ -136,7 +132,7 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
               <TableHead>Asset</TableHead>
               <TableHead 
                 onClick={() => handleSort('totalHolding')}
-                className="cursor-pointer hover:bg-gray-50"
+                className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1F1F2A]"
               >
                 <div className="flex items-center">
                   <span>Holdings</span>
@@ -146,7 +142,7 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
               </TableHead>
               <TableHead 
                 onClick={() => handleSort('currentPrice')}
-                className="cursor-pointer hover:bg-gray-50"
+                className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1F1F2A]"
               >
                 <div className="flex items-center">
                   <span>Total Current Value</span>
@@ -155,7 +151,7 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
               </TableHead>
               <TableHead 
                 onClick={() => handleSort('stcg.gain')}
-                className="cursor-pointer hover:bg-gray-50"
+                className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1F1F2A]"
               >
                 <div className="flex items-center">
                   <span>Short-term</span>
@@ -164,7 +160,7 @@ export default function HoldingsTable({ setHoldings ,holdings,initialVisibleCoun
               </TableHead>
               <TableHead 
                 onClick={() => handleSort('ltcg.gain')}
-                className="cursor-pointer hover:bg-gray-50"
+                className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1F1F2A]"
               >
                 <div className="flex items-center">
                   <span>Long-Term</span>

@@ -1,23 +1,29 @@
 "use client"
 
-import { createContext, useContext, useState, ReactNode } from "react"
+import { Holding } from "@/Types"
+import React, { createContext, useContext, useState, ReactNode } from "react"
 
 type SelectedHoldingsContextType = {
   selectedHoldings: string[]
   setSelectedHoldings: React.Dispatch<React.SetStateAction<string[]>>
+  holdings : Holding[]
+  setHoldings: React.Dispatch<React.SetStateAction<Holding[]>>
 }
+
 
 const SelectedHoldingsContext = createContext<SelectedHoldingsContextType | undefined>(undefined)
 
+
 export const SelectedHoldingsProvider = ({ children }: { children: ReactNode }) => {
   const [selectedHoldings, setSelectedHoldings] = useState<string[]>([])
-
+  const [holdings,setHoldings] = useState<Holding[]>([]);
   return (
-    <SelectedHoldingsContext.Provider value={{ selectedHoldings, setSelectedHoldings }}>
+    <SelectedHoldingsContext.Provider value={{ selectedHoldings, setSelectedHoldings , holdings, setHoldings }}>
       {children}
     </SelectedHoldingsContext.Provider>
   )
 }
+
 
 // Custom hook for easier consumption
 export const useSelectedHoldings = () => {
