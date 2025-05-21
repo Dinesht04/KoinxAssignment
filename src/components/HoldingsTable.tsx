@@ -37,13 +37,22 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
     }
   }
 
-  // Get nested property value
-  const getNestedValue = <T,>(obj: T, path: string): unknown => {
-    return path.split('.').reduce((prev: any, curr) => {
-      return prev ? prev[curr] : null;
-    }, obj);
-  };
+  // Get nested property value (always returns number or undefined)
+const getNestedValue = <T extends object>(obj: T, path: string): number | undefined => {
+  
+  const result = path.split('.').reduce((prev: unknown, curr: string) => {
+    
+    if (prev === null || prev === undefined || typeof prev!== 'object') {
+      return undefined;
+    }
 
+    
+    return (prev as Record<string, unknown>)[curr];
+  }, obj as unknown); 
+
+  return result as number | undefined;
+};
+  
   // Sort holdings based on current sort field and direction
   const sortedHoldings = [...holdings].sort((a, b) => {
     if (!sortField) return 0;
@@ -51,19 +60,13 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
     const aValue = getNestedValue(a, sortField);
     const bValue = getNestedValue(b, sortField);
   
-    if (
-      (typeof aValue === 'string' && typeof bValue === 'string') ||
-      (typeof aValue === 'number' && typeof bValue === 'number')
-    ) {
-      if (sortDirection === 'asc') {
-        return aValue > bValue ? 1 : -1;
-      } else {
-        return aValue < bValue ? 1 : -1;
-      }
-    }
+    
+    const aNum = aValue?? 0; 
+    const bNum = bValue?? 0;
   
-    return 0; // fallback if values are not comparable
+    return sortDirection === 'asc'? aNum - bNum : bNum - aNum;
   });
+
   
 
   const toggleSelectAll = () => {

@@ -13,7 +13,7 @@ export default function FullHoldingsTable() {
 
   useEffect(() => {
       UseHoldings(setHoldings,setError,setLoading)
-    })
+    },[setHoldings])
 
   
 
