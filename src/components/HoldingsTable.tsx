@@ -126,7 +126,8 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                 <Checkbox 
                   checked={selectAll} 
                   onCheckedChange={toggleSelectAll} 
-                  aria-label="Select all" 
+                  aria-label="Select all"
+                  className="hover:bg-[#F1F5F9] hover:dark:bg-[#0A0A12] hover:cursor-pointer" 
                 />
               </TableHead>
               <TableHead>Asset</TableHead>
@@ -172,12 +173,13 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
           </TableHeader>
           <TableBody>
             {displayedHoldings.map((holding) => (
-              <TableRow key={holding.coinName} className={cn(selectedHoldings.includes(holding.coinName) && "bg-[#EAF2FF] dark:bg-[#3A3F54]")}>
+              <TableRow key={holding.coinName} className={cn(selectedHoldings.includes(holding.coinName) && "bg-[#EAF2FF] dark:bg-[#3A3F54]") || "bg-[#FFFFFF] dark:bg-[#171A26]"}>
                 <TableCell className="px-4">
                   <Checkbox
                     checked={selectedHoldings.includes(holding.coinName)}
                     onCheckedChange={() => toggleHolding(holding.coin, holding.coinName)}
                     aria-label={`Select ${holding.coinName}`}
+                    className="hover:cursor-pointer hover:bg-[#EAF2FF] hover:dark:bg-[#3A3F54]"
                   />
                 </TableCell>
                 <TableCell>

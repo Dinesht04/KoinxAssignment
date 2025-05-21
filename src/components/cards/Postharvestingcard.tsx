@@ -1,56 +1,56 @@
-import React, { useMemo, useState } from "react";
-import { Check } from "lucide-react";
+import { useMemo } from "react";
 import { CapitalGains } from "@/Types";
 import { useSelectedHoldings } from "@/Context/SelectedHoldingsContext";
-
-interface HarvestingData {
-  shortTerm: {
-    profits: string;
-    losses: string;
-    netCapitalGains: string;
-  };
-  longTerm: {
-    profits: string;
-    losses: string;
-    netCapitalGains: string;
-  };
-  effectiveCapitalGains: string;
-  savings: string;
-}
-
 interface PostHarvestingProps {
   gain: CapitalGains;
 }
 
-
 const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
+  const { selectedHoldings, holdings } = useSelectedHoldings();
 
-  const inititalGain = (gain?.stcg?.profits - gain?.stcg?.losses)+(gain?.ltcg?.profits - gain?.ltcg?.losses) 
-  
-  const {selectedHoldings,holdings} = useSelectedHoldings();
+  const initialGain = (gain?.stcg?.profits - gain?.stcg?.losses) + (gain?.ltcg?.profits - gain?.ltcg?.losses);
 
-  var effectiveCapitalGains = useMemo(()=>{
-    if(selectedHoldings.length == 0){
-      return (gain?.stcg?.profits - gain?.stcg?.losses)+(gain?.ltcg?.profits - gain?.ltcg?.losses)
-    } else {
-      var calculatedHoldings = holdings.filter((holding)=>selectedHoldings.includes(holding.coinName))
-      calculatedHoldings.map((calculatedHolding)=>{
-        //short-term
-        if(calculatedHolding.stcg.gain > 0){
-          gain.stcg.profits += calculatedHolding.stcg.gain;
-        } else {
-          gain.stcg.losses += calculatedHolding.stcg.gain
-        }
-        //long-term
-        if(calculatedHolding.ltcg.gain > 0){
-          gain.ltcg.profits += calculatedHolding.ltcg.gain
-        } else {
-          gain.ltcg.losses += calculatedHolding.ltcg.gain
-        }
-      })
-      return (gain?.stcg?.profits - gain?.stcg?.losses)+(gain?.ltcg?.profits - gain?.ltcg?.losses)
+  const effectiveCapitalGains = useMemo(() => {
+    if (selectedHoldings.length === 0) {
+      return initialGain;
     }
-  },[selectedHoldings,holdings])
+
+    const updatedGain = {
+      stcg: {
+        profits: gain?.stcg?.profits,
+        losses: gain?.stcg?.losses,
+      },
+      ltcg: {
+        profits: gain?.ltcg?.profits,
+        losses: gain?.ltcg?.losses ,
+      },
+    };
+
+    const calculatedHoldings = holdings.filter((holding) =>
+      selectedHoldings.includes(holding.coinName)
+    );
+
+    calculatedHoldings.forEach((holding) => {
+      // short-term
+      if (holding.stcg.gain > 0) {
+        updatedGain.stcg.profits += holding.stcg.gain;
+      } else {
+        updatedGain.stcg.losses += Math.abs(holding.stcg.gain);
+      }
+
+      // long-term
+      if (holding.ltcg.gain > 0) {
+        updatedGain.ltcg.profits += holding.ltcg.gain;
+      } else {
+        updatedGain.ltcg.losses += Math.abs(holding.ltcg.gain);
+      }
+    });
+
+    return (
+      (updatedGain.stcg.profits - updatedGain.stcg.losses) +
+      (updatedGain.ltcg.profits - updatedGain.ltcg.losses)
+    );
+  }, [selectedHoldings, holdings, gain, initialGain]);
 
   return (
     <div className="rounded-lg shadow p-6 bg-gradient-to-r from-[#3C9AFF] to-[#0066FE] text-white">
@@ -61,62 +61,81 @@ const PostHarvesting: React.FC<PostHarvestingProps> = ({ gain }) => {
         <div className="text-sm font-medium text-right">Long-term</div>
 
         <div className="text-sm">Profits</div>
-        <div className="text-right">{gain?.stcg?.profits.toLocaleString(undefined, { 
-                    style: 'currency', 
-                    currency: 'USD',
-                    maximumFractionDigits: 2
-                  })}</div>
-        <div className="text-right">{gain?.ltcg?.profits.toLocaleString(undefined, { 
-                    style: 'currency', 
-                    currency: 'USD',
-                    maximumFractionDigits: 2
-                  })}</div>
+        <div className="text-right">
+          {gain?.stcg?.profits.toLocaleString(undefined, {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2,
+          })}
+        </div>
+        <div className="text-right">
+          {gain?.ltcg?.profits.toLocaleString(undefined, {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2,
+          })}
+        </div>
 
         <div className="text-sm">Losses</div>
-        <div className="text-right">{gain?.stcg?.losses.toLocaleString(undefined, { 
-                    style: 'currency', 
-                    currency: 'USD',
-                    maximumFractionDigits: 2
-                  })}</div>
-        <div className="text-right">{gain?.ltcg?.losses.toLocaleString(undefined, { 
-                    style: 'currency', 
-                    currency: 'USD',
-                    maximumFractionDigits: 2
-                  })}</div>
+        <div className="text-right">
+          {gain?.stcg?.losses.toLocaleString(undefined, {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2,
+          })}
+        </div>
+        <div className="text-right">
+          {gain?.ltcg?.losses.toLocaleString(undefined, {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2,
+          })}
+        </div>
 
         <div className="text-sm">Net Capital Gains</div>
-        <div className="text-right">{(gain?.stcg?.profits - gain?.stcg?.losses).toLocaleString(undefined, { 
-                    style: 'currency', 
-                    currency: 'USD',
-                    maximumFractionDigits: 2
-                  })}</div>
-        <div className="text-right">{(gain?.ltcg?.profits - gain?.ltcg?.losses).toLocaleString(undefined, { 
-                    style: 'currency', 
-                    currency: 'USD',
-                    maximumFractionDigits: 2
-                  })}</div>
+        <div className="text-right">
+          {(gain?.stcg?.profits - gain?.stcg?.losses).toLocaleString(undefined, {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2,
+          })}
+        </div>
+        <div className="text-right">
+          {(gain?.ltcg?.profits - gain?.ltcg?.losses).toLocaleString(undefined, {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2,
+          })}
+        </div>
       </div>
 
       <div className="mt-6 pt-4 border-blue-400">
         <div className="flex space-x-4 items-center">
           <div className="text-sm font-medium">Effective Capital Gains:</div>
-          <div className="text-xl font-bold">{effectiveCapitalGains.toLocaleString(undefined, { 
-                    style: 'currency', 
-                    currency: 'USD',
-                    maximumFractionDigits: 2
-                  })}</div>
+          <div className="text-xl font-bold">
+            {effectiveCapitalGains.toLocaleString(undefined, {
+              style: "currency",
+              currency: "USD",
+              maximumFractionDigits: 2,
+            })}
+          </div>
         </div>
       </div>
-      {inititalGain > effectiveCapitalGains ? <div className="mt-4 bg-blue-500 p-3 rounded-lg flex items-center">
-        <span className="text-sm">🎉 You are going to save upto {(inititalGain-effectiveCapitalGains).toLocaleString(undefined, { 
-                    style: 'currency', 
-                    currency: 'USD',
-                    maximumFractionDigits: 2
-                  })}</span> 
-      </div> : null}
-      
+
+      {initialGain > effectiveCapitalGains && (
+        <div className="mt-4 bg-blue-500 p-3 rounded-lg flex items-center">
+          <span className="text-sm">
+            🎉 You are going to save upto{" "}
+            {(initialGain - effectiveCapitalGains).toLocaleString(undefined, {
+              style: "currency",
+              currency: "USD",
+              maximumFractionDigits: 2,
+            })}
+          </span>
+        </div>
+      )}
     </div>
   );
 };
 
-export default PostHarvesting;
+export default PostHarvesting
