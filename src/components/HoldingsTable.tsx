@@ -1,6 +1,6 @@
 "use client"
 
-import { Dispatch, useState,SetStateAction } from "react"
+import { useState} from "react"
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -8,8 +8,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tooltip, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
 import { TooltipContent } from "@radix-ui/react-tooltip"
-import { Holding } from "@/Types"
 import { useSelectedHoldings } from "@/Context/SelectedHoldingsContext"
+import Image from "next/image"
 
 interface HoldingsTableProps {
   initialVisibleCount?: number
@@ -38,25 +38,33 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
   }
 
   // Get nested property value
-  const getNestedValue = (obj: any, path: string) => {
-    return path.split('.').reduce((prev, curr) => {
-      return prev ? prev[curr] : null
-    }, obj)
-  }
+  const getNestedValue = <T,>(obj: T, path: string): unknown => {
+    return path.split('.').reduce((prev: any, curr) => {
+      return prev ? prev[curr] : null;
+    }, obj);
+  };
 
   // Sort holdings based on current sort field and direction
   const sortedHoldings = [...holdings].sort((a, b) => {
-    if (!sortField) return 0
-
-    const aValue = getNestedValue(a, sortField)
-    const bValue = getNestedValue(b, sortField)
-
-    if (sortDirection === 'asc') {
-      return aValue > bValue ? 1 : -1
-    } else {
-      return aValue < bValue ? 1 : -1
+    if (!sortField) return 0;
+  
+    const aValue = getNestedValue(a, sortField);
+    const bValue = getNestedValue(b, sortField);
+  
+    if (
+      (typeof aValue === 'string' && typeof bValue === 'string') ||
+      (typeof aValue === 'number' && typeof bValue === 'number')
+    ) {
+      if (sortDirection === 'asc') {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
     }
-  })
+  
+    return 0; // fallback if values are not comparable
+  });
+  
 
   const toggleSelectAll = () => {
     const allCoinIds = sortedHoldings.map((h) => h.coinName)
@@ -188,7 +196,7 @@ export default function HoldingsTable({ initialVisibleCount = 5 }: HoldingsTable
                       {holding.logo.includes("DefaultCoin") ? (
                         <span>{holding.coin.charAt(0)}</span>
                       ) : (
-                        <img src={holding.logo || "/placeholder.svg"} alt={holding.coin} className="w-full h-full object-cover" />
+                        <Image src={holding.logo || "/placeholder.svg"} alt={holding.coin} className="w-full h-full object-cover" />
                       )}
                     </div>
                     <div>

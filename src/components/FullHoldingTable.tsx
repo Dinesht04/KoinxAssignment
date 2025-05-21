@@ -3,18 +3,17 @@
 import { useEffect, useState } from "react"
 import HoldingsTable from "@/components/HoldingsTable"
 import { UseHoldings } from "@/hooks/useHoldings"
-import { Holding } from "@/Types"
 import { useSelectedHoldings } from "@/Context/SelectedHoldingsContext"
 
 export default function FullHoldingsTable() {
   
-  const {holdings,setHoldings} = useSelectedHoldings()
+  const {setHoldings} = useSelectedHoldings()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
       UseHoldings(setHoldings,setError,setLoading)
-    }, [])
+    })
 
   
 

@@ -1,19 +1,6 @@
 import React from "react";
 import { CapitalGains } from "@/Types";
 
-interface HarvestingData {
-  shortTerm: {
-    profits: string;
-    losses: string;
-    netCapitalGains: string;
-  };
-  longTerm: {
-    profits: string;
-    losses: string;
-    netCapitalGains: string;
-  };
-  realisedCapitalGains: string;
-}
 
 interface PreHarvestingProps {
   gain: CapitalGains;

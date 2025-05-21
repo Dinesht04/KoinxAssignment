@@ -4,7 +4,6 @@ import Disclaimer from "./Disclaimers"
 
 import FullHoldingsTable from "./FullHoldingTable"
 import HarvestingCards from "./HarvestingCards"
-import { TooltipArrow } from "@radix-ui/react-tooltip"
   
 
 export default function TaxHarvestingDashboard() {
