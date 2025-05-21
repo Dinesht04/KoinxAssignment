@@ -1,4 +1,7 @@
-Dinesh Tyagi's KoinX Assignment submission for the Front-END Intern Role 
+My KoinX Assignment submission for the Front-END Intern Role 
+Saw the tweet on May 20 9:30pm, Stayed up all night and delivered the final product at 7:30am May 21.
+Tech stack was nextjs, tailwindsCSS, shadcn and used UseContext for state management.
+Deployed - (https://koinx-assignment-rho.vercel.app/)
 
 # 📊 Tax Harvesting Dashboard
 
@@ -6,7 +9,6 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 A dashboard for analyzing and optimizing crypto capital gains through tax-loss harvesting, with a clean, modular architecture and responsive UI.
 
----
 
 ## 🚀 Features
 
@@ -22,7 +24,6 @@ A dashboard for analyzing and optimizing crypto capital gains through tax-loss h
   ✅ **Deployed on Vercel** –
   🌐 [Live Demo](https://koinx-assignment-rho.vercel.app/)*
 
----
 
 ## 🧭 Getting Started
 
