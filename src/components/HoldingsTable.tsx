@@ -199,7 +199,7 @@ const getNestedValue = <T extends object>(obj: T, path: string): number | undefi
                       {holding.logo.includes("DefaultCoin") ? (
                         <span>{holding.coin.charAt(0)}</span>
                       ) : (
-                        <Image src={holding.logo || "/placeholder.svg"} alt={holding.coin} className="w-full h-full object-cover" />
+                        <Image src={holding.logo || "/placeholder.svg"} alt={holding.coin} width={10} height={20} className="w-full h-full object-cover" />
                       )}
                     </div>
                     <div>
