@@ -20,7 +20,7 @@ A dashboard for analyzing and optimizing crypto capital gains through tax-loss h
   ✅ **Custom Hooks** – API interactions handled using `useCapitalGains` and `useHoldings` hooks for better separation of concerns (`/hooks`).
   ✅ **Loader and Error States** – Display feedback during API calls for better UX.
   ✅ **Deployed on Vercel** –
-  🌐 [Live Demo](https://your-vercel-deployment-link.com) *(Replace with actual link)*
+  🌐 [Live Demo](https://koinx-assignment-rho.vercel.app/)*
 
 ---
 
@@ -60,7 +60,7 @@ src/
 ## 📦 Deployment
 
 Deployed on [Vercel](https://vercel.com).
-🔗 **Live Project**: *\[Add your Vercel link here]*
+🔗 **Live Project**: https://koinx-assignment-rho.vercel.app/
 
 ## Dark Mode Screenshots
 ![first-part](image.png)
