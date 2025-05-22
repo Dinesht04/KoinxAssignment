@@ -1,6 +1,7 @@
 My KoinX Assignment submission for the Front-END Intern Role 
 Saw the tweet on May 20 9:30pm, Stayed up all night and delivered the final product at 7:30am May 21.
 Tech stack was nextjs, tailwindsCSS, shadcn and used UseContext for state management.
+Assignment - (https://koinx.notion.site/KoinX-Tax-Loss-Harvesting-Assignment-1eeda378a243800b96fcd67178aa77dd)
 Deployed - (https://koinx-assignment-rho.vercel.app/)
 
 # 📊 Tax Harvesting Dashboard
